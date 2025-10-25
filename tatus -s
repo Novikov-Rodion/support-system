@@ -1,0 +1,168 @@
+[1mdiff --git a/src/main/java/com/example/support_system/controller/AgentController.java b/src/main/java/com/example/support_system/controller/AgentController.java[m
+[1mindex 2b4ca22..4f4e212 100644[m
+[1m--- a/src/main/java/com/example/support_system/controller/AgentController.java[m
+[1m+++ b/src/main/java/com/example/support_system/controller/AgentController.java[m
+[36m@@ -1,4 +1,55 @@[m
+ package com.example.support_system.controller;[m
+ [m
+[32m+[m[32mimport com.example.support_system.model.Agent;[m
+[32m+[m[32mimport com.example.support_system.service.AgentService;[m
+[32m+[m[32mimport org.springframework.beans.factory.annotation.Autowired;[m
+[32m+[m[32mimport org.springframework.http.ResponseEntity;[m
+[32m+[m[32mimport org.springframework.web.bind.annotation.*;[m
+[32m+[m
+[32m+[m[32mimport java.util.List;[m
+[32m+[m[32mimport java.util.Optional;[m
+[32m+[m
+[32m+[m[32m@RestController[m
+[32m+[m[32m@RequestMapping("/api/agents")[m
+ public class AgentController {[m
+[31m-}[m
+[32m+[m
+[32m+[m[32m    @Autowired[m
+[32m+[m[32m    private AgentService agentService;[m
+[32m+[m
+[32m+[m[32m    @GetMapping[m
+[32m+[m[32m    public List<Agent> getAllAgents() {[m
+[32m+[m[32m        return agentService.getAllAgents();[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @GetMapping("/active")[m
+[32m+[m[32m    public List<Agent> getActiveAgents() {[m
+[32m+[m[32m        return agentService.getActiveAgents();[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @GetMapping("/{id}")[m
+[32m+[m[32m    public ResponseEntity<Agent> getAgentById(@PathVariable Long id) {[m
+[32m+[m[32m        Optional<Agent> agent = agentService.getAgentById(id);[m
+[32m+[m[32m        return agent.map(ResponseEntity::ok)[m
+[32m+[m[32m                .orElse(ResponseEntity.notFound().build());[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @PostMapping[m
+[32m+[m[32m    public Agent createAgent(@RequestBody Agent agent) {[m
+[32m+[m[32m        return agentService.createAgent(agent);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @PutMapping("/{id}")[m
+[32m+[m[32m    public ResponseEntity<Agent> updateAgent(@PathVariable Long id, @RequestBody Agent agentDetails) {[m
+[32m+[m[32m        Optional<Agent> updatedAgent = agentService.updateAgent(id, agentDetails);[m
+[32m+[m[32m        return updatedAgent.map(ResponseEntity::ok)[m
+[32m+[m[32m                .orElse(ResponseEntity.notFound().build());[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @DeleteMapping("/{id}")[m
+[32m+[m[32m    public ResponseEntity<Void> deleteAgent(@PathVariable Long id) {[m
+[32m+[m[32m        if (agentService.deleteAgent(id)) {[m
+[32m+[m[32m            return ResponseEntity.ok().build();[m
+[32m+[m[32m        }[m
+[32m+[m[32m        return ResponseEntity.notFound().build();[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/src/main/java/com/example/support_system/controller/CategoryController.java b/src/main/java/com/example/support_system/controller/CategoryController.java[m
+[1mindex bee5002..ccc8ea0 100644[m
+[1m--- a/src/main/java/com/example/support_system/controller/CategoryController.java[m
+[1m+++ b/src/main/java/com/example/support_system/controller/CategoryController.java[m
+[36m@@ -1,4 +1,50 @@[m
+ package com.example.support_system.controller;[m
+ [m
+[32m+[m[32mimport com.example.support_system.model.Category;[m
+[32m+[m[32mimport com.example.support_system.service.CategoryService;[m
+[32m+[m[32mimport org.springframework.beans.factory.annotation.Autowired;[m
+[32m+[m[32mimport org.springframework.http.ResponseEntity;[m
+[32m+[m[32mimport org.springframework.web.bind.annotation.*;[m
+[32m+[m
+[32m+[m[32mimport java.util.List;[m
+[32m+[m[32mimport java.util.Optional;[m
+[32m+[m
+[32m+[m[32m@RestController[m
+[32m+[m[32m@RequestMapping("/api/categories")[m
+ public class CategoryController {[m
+[31m-}[m
+[32m+[m
+[32m+[m[32m    @Autowired[m
+[32m+[m[32m    private CategoryService categoryService;[m
+[32m+[m
+[32m+[m[32m    @GetMapping[m
+[32m+[m[32m    public List<Category> getAllCategories() {[m
+[32m+[m[32m        return categoryService.getAllCategories();[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @GetMapping("/{id}")[m
+[32m+[m[32m    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {[m
+[32m+[m[32m        Optional<Category> category = categoryService.getCategoryById(id);[m
+[32m+[m[32m        return category.map(ResponseEntity::ok)[m
+[32m+[m[32m                .orElse(ResponseEntity.notFound().build());[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @PostMapping[m
+[32m+[m[32m    public Category createCategory(@RequestBody Category category) {[m
+[32m+[m[32m        return categoryService.createCategory(category);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @PutMapping("/{id}")[m
+[32m+[m[32m    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category categoryDetails) {[m
+[32m+[m[32m        Optional<Category> updatedCategory = categoryService.updateCategory(id, categoryDetails);[m
+[32m+[m[32m        return updatedCategory.map(ResponseEntity::ok)[m
+[32m+[m[32m                .orElse(ResponseEntity.notFound().build());[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @DeleteMapping("/{id}")[m
+[32m+[m[32m    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {[m
+[32m+[m[32m        if (categoryService.deleteCategory(id)) {[m
+[32m+[m[32m            return ResponseEntity.ok().build();[m
+[32m+[m[32m        }[m
+[32m+[m[32m        return ResponseEntity.notFound().build();[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/src/main/java/com/example/support_system/controller/SlaController.java b/src/main/java/com/example/support_system/controller/SlaController.java[m
+[1mindex bb661bf..0fd510a 100644[m
+[1m--- a/src/main/java/com/example/support_system/controller/SlaController.java[m
+[1m+++ b/src/main/java/com/example/support_system/controller/SlaController.java[m
+[36m@@ -1,4 +1,57 @@[m
+ package com.example.support_system.controller;[m
+ [m
+[32m+[m[32mimport com.example.support_system.model.SLA;[m
+[32m+[m[32mimport com.example.support_system.service.SlaService;[m
+[32m+[m[32mimport org.springframework.beans.factory.annotation.Autowired;[m
+[32m+[m[32mimport org.springframework.http.ResponseEntity;[m
+[32m+[m[32mimport org.springframework.web.bind.annotation.*;[m
+[32m+[m
+[32m+[m[32mimport java.util.List;[m
+[32m+[m[32mimport java.util.Optional;[m
+[32m+[m
+[32m+[m[32m@RestController[m
+[32m+[m[32m@RequestMapping("/api/slas")[m
+ public class SlaController {[m
+[31m-}[m
+[32m+[m
+[32m+[m[32m    @Autowired[m
+[32m+[m[32m    private SlaService slaService;[m
+[32m+[m
+[32m+[m[32m    @GetMapping[m
+[32m+[m[32m    public List<SLA> getAllSLAs() {[m
+[32m+[m[32m        return slaService.getAllSLAs();[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @GetMapping("/{id}")[m
+[32m+[m[32m    public ResponseEntity<SLA> getSlaById(@PathVariable Long id) {[m
+[32m+[m[32m        Optional<SLA> sla = slaService.getSlaById(id);[m
+[32m+[m[32m        return sla.map(ResponseEntity::ok)[m
+[32m+[m[32m                .orElse(ResponseEntity.notFound().build());[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @GetMapping("/category/{categoryId}")[m
+[32m+[m[32m    public ResponseEntity<SLA> getSlaByCategory(@PathVariable Long categoryId) {[m
+[32m+[m[32m        Optional<SLA> sla = slaService.getSlaByCategoryId(categoryId);[m
+[32m+[m[32m        return sla.map(ResponseEntity::ok)[m
+[32m+[m[32m                .orElse(ResponseEntity.notFound().build());[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @PostMapping[m
+[32m+[m[32m    public SLA createSLA(@RequestBody SLA sla) {[m
+[32m+[m[32m        return slaService.createSLA(sla);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @Put
